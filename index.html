@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOA METAL</title>
+  <meta name="description" content="Moa Metal은 글로벌 시장에서 금 산업, 천연자원, 무역 실행 서비스를 제공하는 신뢰 기반 파트너입니다." />
+  <meta name="theme-color" content="#050608" />
+  <link rel="icon" href="https://cdn.imweb.me/thumbnail/20260129/865f7f9e12641.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+  /* ─── RESET ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  /* ─── DESIGN TOKENS ─── */
+  :root {
+    --ff:      'Pretendard', sans-serif;
+
+    --bg:      #050608;
+    --bg-2:    #090b12;
+    --bg-card: #0d1018;
+    --surface: rgba(255,255,255,.035);
+    --white:   #f2f3f7;
+    --text:    #dde0ea;
+    --muted:   rgba(221,224,234,.38);
+    --border:  rgba(255,255,255,.06);
+    --border-h:rgba(255,255,255,.14);
+
+    --gold:    #c9a84c;
+    --gold-l:  #e8c87a;
+    --a1:      #4f7fff;
+    --a2:      #9b87f5;
+    --grad:    linear-gradient(135deg, #4f7fff 0%, #9b87f5 100%);
+    --gold-grad: linear-gradient(135deg, #c9a84c 0%, #e8c87a 100%);
+
+    --max-w: 1180px;
+    --px:    clamp(1.5rem, 5vw, 3.5rem);
+    --hh:    72px;
+    --hh-s:  58px;
+    --ease:  cubic-bezier(.4,0,.2,1);
+    --eout:  cubic-bezier(0,0,.2,1);
+    --spring:cubic-bezier(.34,1.56,.64,1);
+  }
+
+  body {
+    font-family: var(--ff);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a   { text-decoration: none; color: inherit; }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--max-w);
+    margin-inline: auto;
+    padding-inline: var(--px);
+  }
+
+  /* ─── REVEAL ─── */
+  .rv {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s var(--eout), transform .7s var(--eout);
+  }
+  .rv.on { opacity: 1; transform: none; }
+  .rv.d1 { transition-delay: .08s; }
+  .rv.d2 { transition-delay: .18s; }
+  .rv.d3 { transition-delay: .28s; }
+  .rv.d4 { transition-delay: .40s; }
+
+  /* ─── GRADIENT TEXT ─── */
+  .grad-text {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gold-text {
+    background: var(--gold-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ══════════════════════════════
+     HEADER
+  ══════════════════════════════ */
+  #hdr {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 1000;
+    height: var(--hh);
+    background: transparent;
+    transition: height .35s var(--ease), background .35s, backdrop-filter .35s, border-color .35s;
+    border-bottom: 1px solid transparent;
+  }
+  #hdr.s {
+    height: var(--hh-s);
+    background: rgba(5,6,8,.88);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border-color: var(--border);
+  }
+
+  .hdr-in {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* logo */
+  .hdr-logo {
+    flex-shrink: 0;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+  }
+  .hdr-logo img {
+    height: 26px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    transition: height .35s var(--ease), opacity .2s;
+  }
+  .hdr-logo:hover img { opacity: .8; }
+  #hdr.s .hdr-logo img { height: 22px; }
+
+  /* nav links */
+  .hdr-nav ul { display: flex; list-style: none; }
+  .hdr-nav li { position: relative; }
+  .hdr-nav li > a {
+    display: flex;
+    align-items: center;
+    height: var(--hh);
+    padding-inline: 1.125rem;
+    font-size: .8125rem;
+    font-weight: 500;
+    letter-spacing: .01em;
+    color: rgba(255,255,255,.6);
+    white-space: nowrap;
+    transition: color .2s, height .35s var(--ease);
+  }
+  #hdr.s .hdr-nav li > a { height: var(--hh-s); }
+  .hdr-nav li > a::after {
+    content: '';
+    position: absolute;
+    bottom: 14px;
+    left: 1.125rem;
+    right: 1.125rem;
+    height: 1px;
+    background: var(--grad);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s var(--ease);
+  }
+  #hdr.s .hdr-nav li > a::after { bottom: 10px; }
+  .hdr-nav li > a:hover { color: #fff; }
+  .hdr-nav li > a:hover::after { transform: scaleX(1); }
+
+  /* language selector */
+  .hdr-lang { position: relative; flex-shrink: 0; }
+  .hdr-lang > button {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .45rem 1rem;
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 100px;
+    cursor: pointer;
+    font-family: var(--ff);
+    font-size: .75rem;
+    font-weight: 500;
+    color: rgba(255,255,255,.65);
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .hdr-lang > button:hover {
+    border-color: rgba(255,255,255,.25);
+    color: #fff;
+    background: rgba(255,255,255,.06);
+  }
+  .hdr-lang > button .arr {
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  .hdr-lang:hover > button .arr { transform: rotate(-135deg) translateY(-2px); }
+
+  .hdr-lang-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 156px;
+    background: #10111c;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    list-style: none;
+    padding: .5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(.97);
+    transform-origin: top right;
+    transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
+    z-index: 100;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+  .hdr-lang:hover .hdr-lang-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .hdr-lang-menu li a {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem .875rem;
+    border-radius: 8px;
+    font-size: .8125rem;
+    color: var(--muted);
+    transition: background .15s, color .15s;
+  }
+  .hdr-lang-menu li a:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .hdr-lang-menu li a.active { color: var(--a1); }
+
+  /* hamburger */
+  .nav-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-left: auto;
+  }
+  .nav-btn span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: rgba(255,255,255,.75);
+    border-radius: 2px;
+    transition: transform .3s var(--ease), opacity .2s;
+  }
+  .nav-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* mobile nav open */
+  .hdr-nav.mob-open {
+    display: block !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: rgba(5,6,8,.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: .5rem 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hdr-nav.mob-open ul { flex-direction: column; }
+  .hdr-nav.mob-open li > a {
+    height: auto !important;
+    padding: .875rem 0 !important;
+    font-size: .9375rem;
+    color: rgba(255,255,255,.7);
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .hdr-nav.mob-open li > a::after { display: none; }
+  .hdr-nav.mob-open li:last-child > a { border-bottom: none; }
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  #hero {
+    position: relative;
+    height: 100svh;
+    min-height: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* background image with ken burns */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://halotrade.kr/media/f35926dc7c148.png') center/cover no-repeat;
+    filter: grayscale(.9) brightness(.4);
+    transform: scale(1.06);
+    animation: kb 24s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes kb {
+    from { transform: scale(1.06); }
+    to   { transform: scale(1.12); }
+  }
+
+  /* gold accent lines */
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero-lines::before,
+  .hero-lines::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+  }
+  .hero-lines::before {
+    width: 600px; height: 600px;
+    top: -200px; right: -100px;
+    background: rgba(79,127,255,.08);
+  }
+  .hero-lines::after {
+    width: 500px; height: 500px;
+    bottom: -150px; left: -100px;
+    background: rgba(201,168,76,.05);
+  }
+
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom,
+        rgba(5,6,8,.2) 0%,
+        rgba(5,6,8,.45) 55%,
+        rgba(5,6,8,.95) 100%);
+  }
+
+  .hero-body {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding-inline: 1.5rem;
+    max-width: 860px;
+    animation: heroIn 1.1s var(--eout) both;
+  }
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .625rem;
+    padding: .375rem 1.125rem;
+    border-radius: 100px;
+    border: 1px solid rgba(79,127,255,.3);
+    background: rgba(79,127,255,.08);
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.6);
+    margin-bottom: 2rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--grad);
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.5); opacity: .6; }
+  }
+
+  .hero-h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -.04em;
+    color: #fff;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-desc {
+    font-size: clamp(.875rem, 1.15vw, 1.0625rem);
+    font-weight: 300;
+    line-height: 2;
+    color: rgba(255,255,255,.45);
+    max-width: 580px;
+    margin-inline: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-tagline {
+    font-size: .9375rem;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: .01em;
+    margin-bottom: 1.25rem;
+  }
+
+  /* scroll cue */
+  .hero-scroll {
+    display: none;
+  }
+
+  /* ══════════════════════════════
+     SECTION COMMONS
+  ══════════════════════════════ */
+  .sec-label {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--a1);
+    margin-bottom: 1rem;
+  }
+  .sec-label::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--a1);
+    flex-shrink: 0;
+  }
+
+  .sec-h2 {
+    font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -.035em;
+    color: #fff;
+    margin-bottom: 1.125rem;
+  }
+
+  .sec-sub {
+    font-size: clamp(.8125rem, 1.05vw, .9375rem);
+    color: var(--muted);
+    line-height: 1.95;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+
+  .sec-hd {
+    text-align: center;
+    margin-bottom: clamp(3rem, 6vw, 5.5rem);
+  }
+
+  /* ══════════════════════════════
+     BUSINESS
+  ══════════════════════════════ */
+  #business {
+    background: var(--bg-2);
+    padding-block: clamp(5rem, 11vw, 9rem);
+  }
+
+  .biz-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .biz-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .35s, transform .35s var(--ease), box-shadow .35s;
+    cursor: default;
+  }
+  .biz-card:hover {
+    border-color: var(--border-h);
+    transform: translateY(-8px);
+    box-shadow:
+      0 30px 70px rgba(0,0,0,.45),
+      0 0 0 1px rgba(79,127,255,.12),
+      inset 0 1px 0 rgba(255,255,255,.04);
+  }
+
+  .biz-img-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+  .biz-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(13,16,24,.8) 100%);
+  }
+  .biz-card-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    transition: transform .7s var(--ease);
+    filter: brightness(.85) saturate(.9);
+  }
+  .biz-card:hover .biz-card-img { transform: scale(1.07); }
+
+  .biz-body {
+    padding: 1.75rem 1.875rem 2.125rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .biz-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    padding: .2rem .8rem;
+    border-radius: 100px;
+    background: rgba(79,127,255,.09);
+    border: 1px solid rgba(79,127,255,.18);
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--a1);
+    margin-bottom: 1.125rem;
+  }
+
+  .biz-h3 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: .875rem;
+  }
+
+  .biz-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 1.125rem;
+    transition: width .4s var(--ease), background .4s;
+  }
+  .biz-card:hover .biz-divider {
+    width: 80px;
+    background: var(--grad);
+  }
+
+  .biz-p {
+    font-size: .8125rem;
+    line-height: 1.95;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  /* ══════════════════════════════
+     CORE VALUE
+  ══════════════════════════════ */
+  #cv {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(5rem, 11vw, 9rem);
+  }
+
+  .cv-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://halotrade.kr/media/a9820d8798d10.png') center/cover no-repeat fixed;
+    filter: grayscale(.6) brightness(.25);
+  }
+
+  .cv-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(5,6,8,.9);
+  }
+
+  /* decorative glow */
+  .cv-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .cv-glow::before {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(79,127,255,.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cv-in { position: relative; z-index: 1; }
+  #cv .sec-label { color: var(--a2); }
+  #cv .sec-label::before { background: var(--a2); }
+
+  /* Core Value section subtitle: keep single line on wide screens */
+  @media (min-width: 900px) {
+    #cv .sec-sub {
+      max-width: min(980px, 100%);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .cv-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .cv-card {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,.025);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 1.75rem 2.25rem;
+    transition: background .3s, border-color .3s, transform .35s var(--ease), box-shadow .35s;
+  }
+  .cv-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: var(--grad);
+    opacity: 0;
+    transition: opacity .35s;
+    z-index: 0;
+  }
+  .cv-card:hover::before { opacity: .055; }
+  .cv-card:hover {
+    border-color: rgba(79,127,255,.22);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  }
+  .cv-card > * { position: relative; z-index: 1; }
+
+  .cv-num {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -.04em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+  }
+
+  .cv-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: rgba(79,127,255,.1);
+    border: 1px solid rgba(79,127,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+    color: var(--a1);
+    transition: background .3s, border-color .3s;
+  }
+  .cv-card:hover .cv-icon {
+    background: rgba(79,127,255,.18);
+    border-color: rgba(79,127,255,.3);
+  }
+  .cv-icon svg {
+    width: 20px; height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.75;
+  }
+
+  .cv-ttl {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .cv-list { list-style: none; }
+  .cv-list li {
+    font-size: .7875rem;
+    line-height: 1.85;
+    color: rgba(255,255,255,.38);
+    padding-block: .15rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .cv-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .72em;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--a1);
+    opacity: .5;
+  }
+
+  /* ══════════════════════════════
+     CTA BAND
+  ══════════════════════════════ */
+  #cta {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(5rem, 11vw, 9rem);
+    text-align: center;
+  }
+
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://halotrade.kr/media/77c7dad4e09aa.jpg') center/cover no-repeat;
+    filter: grayscale(.8) brightness(.22);
+  }
+
+  .cta-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(79,127,255,.1) 0%, rgba(155,135,245,.1) 100%);
+  }
+
+  /* animated orbs */
+  .cta-orb1,
+  .cta-orb2 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .cta-orb1 {
+    width: 400px; height: 400px;
+    top: -100px; left: 10%;
+    background: rgba(79,127,255,.07);
+    animation: orbFloat 8s ease-in-out infinite alternate;
+  }
+  .cta-orb2 {
+    width: 350px; height: 350px;
+    bottom: -100px; right: 10%;
+    background: rgba(155,135,245,.07);
+    animation: orbFloat 10s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes orbFloat {
+    from { transform: translateY(0) translateX(0); }
+    to   { transform: translateY(-30px) translateX(15px); }
+  }
+
+  #cta .wrap { position: relative; z-index: 1; }
+
+  .cta-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+    margin-bottom: 1.75rem;
+  }
+  .cta-eyebrow::before,
+  .cta-eyebrow::after {
+    content: '';
+    flex: 1;
+    min-width: 48px;
+    height: 1px;
+    background: rgba(255,255,255,.1);
+  }
+
+  .cta-h2 {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -.04em;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-sub {
+    font-size: clamp(.875rem, 1.2vw, 1.125rem);
+    font-weight: 300;
+    color: rgba(255,255,255,.45);
+    margin-bottom: 3rem;
+    letter-spacing: .01em;
+  }
+
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: .625rem;
+    padding: .95rem 2.75rem;
+    border-radius: 100px;
+    background: var(--grad);
+    color: #fff;
+    font-size: .9375rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    transition: opacity .25s, transform .25s var(--spring), box-shadow .25s;
+    box-shadow: 0 8px 36px rgba(79,127,255,.35);
+  }
+  .cta-btn-primary:hover {
+    opacity: .9;
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px rgba(79,127,255,.45);
+  }
+  .cta-btn-primary svg {
+    width: 16px; height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    transition: transform .25s var(--spring);
+  }
+  .cta-btn-primary:hover svg { transform: translateX(4px); }
+
+  .cta-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .9rem 2rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,.15);
+    color: rgba(255,255,255,.65);
+    font-size: .9rem;
+    font-weight: 500;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .cta-btn-ghost:hover {
+    border-color: rgba(255,255,255,.3);
+    color: #fff;
+    background: rgba(255,255,255,.04);
+  }
+
+  /* ══════════════════════════════
+     CONTACT
+  ══════════════════════════════ */
+  #contact {
+    background: var(--bg-2);
+    padding-block: clamp(5rem, 11vw, 9rem);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: start;
+  }
+
+  /* contact info */
+  .ci-label {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--a1);
+    margin-bottom: 1.75rem;
+  }
+  .ci-label::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--a1);
+  }
+
+  .ci-company {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 2.25rem;
+  }
+
+  .ci-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .ci-row { display: flex; gap: 1rem; align-items: flex-start; }
+
+  .ci-row-icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: .05rem;
+  }
+  .ci-row-icon svg {
+    width: 15px; height: 15px;
+    stroke: rgba(255,255,255,.4);
+    fill: none;
+    stroke-width: 1.75;
+  }
+
+  .ci-row-lbl {
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.25);
+    margin-bottom: .25rem;
+  }
+
+  .ci-row-val {
+    font-size: .875rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .ci-row-val a { color: var(--muted); transition: color .2s; }
+  .ci-row-val a:hover { color: var(--a1); }
+
+  /* map */
+  .cf-map-wrap {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  }
+  .cf-map-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    filter: grayscale(.4) contrast(1.05) brightness(.9);
+  }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  #footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding-block-start: clamp(3.5rem, 7vw, 6rem);
+    padding-block-end: 2.5rem;
+  }
+
+  .ft-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr;
+    gap: clamp(2rem, 4vw, 5rem);
+    padding-bottom: 3rem;
+    margin-bottom: 2.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ft-logo {
+    height: 22px;
+    width: auto;
+    margin-bottom: 1.625rem;
+    filter: brightness(0) invert(1);
+    opacity: .7;
+  }
+
+  .ft-info {
+    font-size: .8rem;
+    line-height: 2.3;
+    color: rgba(255,255,255,.2);
+  }
+
+  .ft-col h5 {
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.25);
+    margin-bottom: 1.5rem;
+  }
+
+  .ft-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+
+  .ft-col ul li a {
+    font-size: .8125rem;
+    color: rgba(255,255,255,.24);
+    transition: color .2s;
+  }
+  .ft-col ul li a:hover { color: rgba(255,255,255,.7); }
+
+  .ft-btm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .6875rem;
+    color: rgba(255,255,255,.16);
+  }
+
+  .ft-btm a { color: rgba(255,255,255,.16); transition: color .2s; }
+  .ft-btm a:hover { color: rgba(255,255,255,.5); }
+
+  /* ══════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════ */
+  @media (max-width: 1024px) {
+    .biz-grid     { grid-template-columns: 1fr 1fr; }
+    .cv-grid      { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    #hdr { height: var(--hh-s); }
+    .hdr-nav, .hdr-lang { display: none; }
+    .nav-btn { display: flex; }
+    .biz-grid { grid-template-columns: 1fr; }
+    .cv-grid  { grid-template-columns: 1fr; }
+    .ft-grid  { grid-template-columns: 1fr; }
+    .ft-btm   { flex-direction: column; gap: .5rem; text-align: center; }
+    .cv-bg    { background-attachment: scroll; }
+    .hero-desc { font-size: .875rem; }
+    .hero-desc br { display: none; }
+    .hero-eyebrow { white-space: normal; justify-content: center; }
+.cta-eyebrow::before, .cta-eyebrow::after { min-width: 20px; }
+    .cf-map-wrap { aspect-ratio: 1/1; }
+  }
+
+  @media (max-width: 480px) {
+    :root { --px: 1.25rem; }
+    .hero-h1 { letter-spacing: -.03em; }
+    .biz-body { padding: 1.375rem 1.375rem 1.75rem; }
+    .cv-card  { padding: 2rem 1.375rem 1.75rem; }
+    .ci-row   { gap: .75rem; }
+    .ft-info  { font-size: .75rem; line-height: 2.1; }
+    .cta-actions { flex-direction: column; }
+    .cta-btn-primary, .cta-btn-ghost { width: 100%; justify-content: center; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header id="hdr">
+  <div class="wrap hdr-in">
+
+    <a href="#hero" class="hdr-logo">
+      <img src="https://cdn.imweb.me/thumbnail/20260129/865f7f9e12641.png" alt="Moa Metal" />
+    </a>
+
+    <nav class="hdr-nav" aria-label="Main">
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#business">Business</a></li>
+        <li><a href="#cv">Core Value</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="hdr-lang">
+      <button type="button" aria-label="언어 선택">
+        🇰🇷&nbsp;한국어 <span class="arr"></span>
+      </button>
+      <ul class="hdr-lang-menu">
+        <li><a href="#" data-lang="ko" class="active">🇰🇷&nbsp;한국어</a></li>
+        <li><a href="#" data-lang="en">🇺🇸&nbsp;English</a></li>
+        <li><a href="#" data-lang="zh-CN">🇨🇳&nbsp;简体中文</a></li>
+        <li><a href="#" data-lang="zh-TW">🇭🇰&nbsp;繁體中文</a></li>
+      </ul>
+    </div>
+
+    <button class="nav-btn" aria-label="메뉴" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</header>
+
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-scrim"></div>
+
+  <div class="hero-body">
+    <p class="hero-eyebrow">Navigating Global Markets Together</p>
+    <p class="hero-tagline">Trade leading to cross-border trust. We share success in global markets.</p>
+    <h1 class="hero-h1">Welcome to<br/><span class="grad-text">MOA METAL</span></h1>
+    <p class="hero-desc">글로벌 시장에서 성장을 지원하는 신뢰할 수 있는 파트너 모아메탈은<br/>금 관련 산업, 광물자원, 기업 무역 서비스 등 다양한 분야에서<br/>혁신적인 솔루션과 전문성을 제공하며, 고객의 성공을 최우선으로 생각합니다.</p>
+  </div>
+
+</section>
+
+
+<!-- ══════════ BUSINESS ══════════ -->
+<section id="business">
+  <div class="wrap">
+    <div class="sec-hd">
+      <p class="sec-label rv">Business Service</p>
+      <h2 class="sec-h2 rv d1">Our <span class="grad-text">Business</span></h2>
+      <p class="sec-sub rv d2">
+        모아메탈은 금 수출입 관련 사업, 신규사업 개발 및 공동 운영 등 금 관련 산업을 강화하고 있습니다.
+        더 나아가 다양한 무역관련 Business Service를 제공하며, 단순한 자문 서비스가 아닌 업무 &ldquo;실행&rdquo;을 지원합니다.
+      </p>
+    </div>
+
+    <div class="biz-grid">
+
+      <article class="biz-card rv d1">
+        <div class="biz-img-wrap">
+          <img class="biz-card-img" src="https://halotrade.kr/media/565274b74e90d.jpg" alt="Gold Industry and Trade" loading="lazy" />
+        </div>
+        <div class="biz-body">
+          <span class="biz-tag">Gold Industry</span>
+          <h3 class="biz-h3">Gold Industry and Trade</h3>
+          <div class="biz-divider"></div>
+          <p class="biz-p">모아메탈은 금 도매, 소매, 가공, 제조를 비롯해 금과 관련된 전반적인 산업과 국제 무역에 특화된 전문 기업입니다. 전문 지식을 바탕으로 안정적이고 신뢰할 수 있는 거래를 제공하며, 고객 중심의 서비스와 높은 품질 기준을 통해 업계에서 확고한 입지를 구축하고 있습니다.<br/><br/>금 산업의 모든 과정에서 최상의 솔루션을 제시하는 파트너로서, 지속적인 성장과 혁신을 추구하고 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="biz-card rv d2">
+        <div class="biz-img-wrap">
+          <img class="biz-card-img" src="https://halotrade.kr/media/2a2ea52760622.png" alt="Natural Resources" loading="lazy" />
+        </div>
+        <div class="biz-body">
+          <span class="biz-tag">Natural Resources</span>
+          <h3 class="biz-h3">Natural Resources</h3>
+          <div class="biz-divider"></div>
+          <p class="biz-p">광물 자원은 지구의 지각에서 자연적으로 형성된 무기물로, 일정한 화학 조성과 규칙적인 결정 구조를 가진 고체 물질을 의미합니다. 이들은 산업과 경제의 기초를 이루는 원자재로서, 다양한 분야에서 필수적인 역할을 수행합니다.<br/><br/>당사는 글로벌 네트워크와 전문성을 바탕으로 안정적이고 효율적인 광물 자원 공급 서비스를 제공합니다.</p>
+        </div>
+      </article>
+
+      <article class="biz-card rv d3">
+        <div class="biz-img-wrap">
+          <img class="biz-card-img" src="https://halotrade.kr/media/21028a60d2300.jpg" alt="Trading Service" loading="lazy" />
+        </div>
+        <div class="biz-body">
+          <span class="biz-tag">Trading Service</span>
+          <h3 class="biz-h3">Trading Service</h3>
+          <div class="biz-divider"></div>
+          <p class="biz-p">Moa Metal의 무역 서비스는 국가 간 상품과 서비스의 교환을 원활하게 진행하기 위해 다양한 지원 서비스입니다. 물류 관리, 통관 절차, 대금 결제, 마케팅 활동 등 국제 무역의 모든 측면을 포괄하고 있습니다.<br/><br/>새로운 기회의 발굴, 유통 채널 확립, 다양한 국가의 고객 및 파트너와의 관계 구축을 통해 기업의 시장 확대를 지원합니다.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ CORE VALUE ══════════ -->
+<section id="cv">
+  <div class="cv-bg"></div>
+  <div class="cv-scrim"></div>
+  <div class="cv-glow"></div>
+  <div class="cv-in wrap">
+
+    <div class="sec-hd">
+      <p class="sec-label rv">What We Stand For</p>
+      <h2 class="sec-h2 rv d1">The Core Value of<br/><span class="grad-text">Moa Metal</span></h2>
+      <p class="sec-sub rv d2">Core values serve as the foundation for the success and sustainable growth of Moa Metal</p>
+    </div>
+
+    <div class="cv-grid">
+
+      <div class="cv-card rv d1">
+        <div class="cv-num">01</div>
+        <div class="cv-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h3 class="cv-ttl">Reliability</h3>
+        <ul class="cv-list">
+          <li>무역업에서는 다양한 국가와 문화의 파트너 및 고객과의 협력</li>
+          <li>투명한 정보 공개와 정직한 소통을 통해 신뢰를 구축</li>
+          <li>상황에 따른 다양한 변수와 대응할 수 있는 전문성</li>
+        </ul>
+      </div>
+
+      <div class="cv-card rv d2">
+        <div class="cv-num">02</div>
+        <div class="cv-icon">
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3 class="cv-ttl">Innovativeness</h3>
+        <ul class="cv-list">
+          <li>글로벌 시장의 기술 발전과 소비자 요구의 변화에 신속하게 대응</li>
+          <li>새로운 시장 진출 전략, 디지털 기술 도입</li>
+          <li>효율적인 물류 시스템 등 혁신적인 접근을 통해 경쟁력을 강화</li>
+        </ul>
+      </div>
+
+      <div class="cv-card rv d3">
+        <div class="cv-num">03</div>
+        <div class="cv-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 class="cv-ttl">Quality &amp; Service</h3>
+        <ul class="cv-list">
+          <li>우수한 품질의 제품과 서비스를 제공</li>
+          <li>고객의 신뢰를 얻고, 반복 거래와 긍정적인 평판을 확보</li>
+          <li>신속하고 정확한 대응을 통해 고객의 요구를 충족</li>
+        </ul>
+      </div>
+
+      <div class="cv-card rv d4">
+        <div class="cv-num">04</div>
+        <div class="cv-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 22c2.59.71 5.39.46 7.68-.91 2.29-1.37 4.06-3.66 4.84-6.29C17.33 11.6 17 8 17 8z"/><path d="M3.82 22C7 15.5 10 12 17 8"/></svg>
+        </div>
+        <h3 class="cv-ttl">Sustainability &amp; CSR</h3>
+        <ul class="cv-list">
+          <li>환경 친화적인 무역 관행을 실천</li>
+          <li>윤리적이고 책임 있는 경영을 통해 사회에 긍정적인 영향</li>
+          <li>지속 가능한 발전을 위한 사회적 책임을 다하는 기업</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ CTA ══════════ -->
+<section id="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-scrim"></div>
+  <div class="cta-orb1"></div>
+  <div class="cta-orb2"></div>
+  <div class="wrap">
+    <p class="cta-eyebrow rv">Partner for Success</p>
+    <h2 class="cta-h2 rv d1"><span class="grad-text">MOA METAL</span></h2>
+    <p class="cta-sub rv d2">A partner for growth, designing your future</p>
+    <div class="cta-actions rv d3">
+      <a href="#contact" class="cta-btn-primary">
+        Contact Us
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <div>
+        <p class="ci-label rv">Contact Information</p>
+        <p class="ci-company rv d1">주식회사<br/>모아메탈</p>
+
+        <div class="ci-rows rv d2">
+
+          <div class="ci-row">
+            <div class="ci-row-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="ci-row-lbl">Address</div>
+              <div class="ci-row-val">
+                서울특별시 종로구 돈화문로5가길 1, 5층 519호<br/>
+                <small style="font-size:.8em;opacity:.65;">(R519, 1, Donhwamun-ro 5ga-gil, Jongno-gu, Seoul)</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="ci-row">
+            <div class="ci-row-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.08 6.08l.82-.82a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
+            </div>
+            <div>
+              <div class="ci-row-lbl">Tel</div>
+              <div class="ci-row-val"><a href="tel:+82274755779">+82 2-747-5779</a></div>
+            </div>
+          </div>
+
+          <div class="ci-row">
+            <div class="ci-row-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="ci-row-lbl">E-mail</div>
+              <div class="ci-row-val"><a href="mailto:hellomoametal@gmail.com">hellomoametal@gmail.com</a></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="rv d2">
+        <div class="cf-map-wrap">
+          <iframe
+            src="https://maps.google.com/maps?q=서울특별시+종로구+돈화문로5가길+1&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            title="Moa Metal 위치"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer id="footer">
+  <div class="wrap">
+    <div class="ft-grid">
+
+      <div>
+        <img class="ft-logo" src="https://cdn.imweb.me/thumbnail/20260129/865f7f9e12641.png" alt="Moa Metal" />
+        <div class="ft-info">
+          주식회사 모아메탈<br/>
+          Tel. 02-747-5779 &nbsp;|&nbsp; Fax. 02-747-5780<br/>
+          hellomoametal@gmail.com<br/>
+          서울특별시 종로구 돈화문로5가길 1, 5층 519호<br/>
+          사업자등록번호. 239-87-02548
+        </div>
+      </div>
+
+      <div class="ft-col">
+        <h5>Menu</h5>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#business">Business</a></li>
+          <li><a href="#cv">Core Value</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="ft-col">
+        <h5>Business</h5>
+        <ul>
+          <li><a href="#business">Gold Industry and Trade</a></li>
+          <li><a href="#business">Natural Resources</a></li>
+          <li><a href="#business">Trading Service</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="ft-btm">
+      <span>© 2025 주식회사 모아메탈. All rights reserved.</span>
+      <a href="#">로그인</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════ SCRIPTS ══════════ -->
+
+<!-- i18n Language Switcher -->
+<script>
+(function () {
+  var T = {
+    ko: {
+      langLabel: '🇰🇷\u00a0한국어',
+      heroEyebrow: 'Navigating Global Markets Together',
+      heroH1: 'Welcome to<br/><span class="grad-text">MOA METAL</span>',
+      heroDesc: '글로벌 시장에서 성장을 지원하는 신뢰할 수 있는 파트너 모아메탈은<br/>금 관련 산업, 광물자원, 기업 무역 서비스 등 다양한 분야에서<br/>혁신적인 솔루션과 전문성을 제공하며, 고객의 성공을 최우선으로 생각합니다.',
+      heroTagline: 'Trade leading to cross-border trust. We share success in global markets.',
+      bizLabel: 'Business Service',
+      bizH2: 'Our <span class="grad-text">Business</span>',
+      bizSub: '모아메탈은 금 수출입 관련 사업, 신규사업 개발 및 공동 운영 등 금 관련 산업을 강화하고 있습니다. 더 나아가 다양한 무역관련 Business Service를 제공하며, 단순한 자문 서비스가 아닌 업무 \u201c실행\u201d을 지원합니다.',
+      biz1Tag: 'Gold Industry', biz1H3: 'Gold Industry and Trade',
+      biz1P: '모아메탈은 금 도매, 소매, 가공, 제조를 비롯해 금과 관련된 전반적인 산업과 국제 무역에 특화된 전문 기업입니다. 전문 지식을 바탕으로 안정적이고 신뢰할 수 있는 거래를 제공하며, 고객 중심의 서비스와 높은 품질 기준을 통해 업계에서 확고한 입지를 구축하고 있습니다.<br/><br/>금 산업의 모든 과정에서 최상의 솔루션을 제시하는 파트너로서, 지속적인 성장과 혁신을 추구하고 있습니다.',
+      biz2Tag: 'Natural Resources', biz2H3: 'Natural Resources',
+      biz2P: '광물 자원은 지구의 지각에서 자연적으로 형성된 무기물로, 일정한 화학 조성과 규칙적인 결정 구조를 가진 고체 물질을 의미합니다. 이들은 산업과 경제의 기초를 이루는 원자재로서, 다양한 분야에서 필수적인 역할을 수행합니다.<br/><br/>당사는 글로벌 네트워크와 전문성을 바탕으로 안정적이고 효율적인 광물 자원 공급 서비스를 제공합니다.',
+      biz3Tag: 'Trading Service', biz3H3: 'Trading Service',
+      biz3P: 'Moa Metal의 무역 서비스는 국가 간 상품과 서비스의 교환을 원활하게 진행하기 위해 다양한 지원 서비스입니다. 물류 관리, 통관 절차, 대금 결제, 마케팅 활동 등 국제 무역의 모든 측면을 포괄하고 있습니다.<br/><br/>새로운 기회의 발굴, 유통 채널 확립, 다양한 국가의 고객 및 파트너와의 관계 구축을 통해 기업의 시장 확대를 지원합니다.',
+      cvLabel: 'What We Stand For',
+      cvH2: 'The Core Value of<br/><span class="grad-text">Moa Metal</span>',
+      cvSub: 'Core values serve as the foundation for the success and sustainable growth of Moa Metal',
+      cv1Ttl: 'Reliability',
+      cv1Li: ['무역업에서는 다양한 국가와 문화의 파트너 및 고객과의 협력', '투명한 정보 공개와 정직한 소통을 통해 신뢰를 구축', '상황에 따른 다양한 변수와 대응할 수 있는 전문성'],
+      cv2Ttl: 'Innovativeness',
+      cv2Li: ['글로벌 시장의 기술 발전과 소비자 요구의 변화에 신속하게 대응', '새로운 시장 진출 전략, 디지털 기술 도입', '효율적인 물류 시스템 등 혁신적인 접근을 통해 경쟁력을 강화'],
+      cv3Ttl: 'Quality & Service',
+      cv3Li: ['우수한 품질의 제품과 서비스를 제공', '고객의 신뢰를 얻고, 반복 거래와 긍정적인 평판을 확보', '신속하고 정확한 대응을 통해 고객의 요구를 충족'],
+      cv4Ttl: 'Sustainability & CSR',
+      cv4Li: ['환경 친화적인 무역 관행을 실천', '윤리적이고 책임 있는 경영을 통해 사회에 긍정적인 영향', '지속 가능한 발전을 위한 사회적 책임을 다하는 기업'],
+      ctaEyebrow: 'Partner for Success',
+      ctaSub: 'A partner for growth, designing your future',
+      ctaBtn: 'Contact Us',
+      ctaBtnGhost: 'Our Services',
+      ciLabel: 'Contact Information',
+      ciCompany: '주식회사\n모아메탈',
+      ftCopy: '© 2025 주식회사 모아메탈. All rights reserved.',
+      ftLogin: '로그인'
+    },
+    en: {
+      langLabel: '🇺🇸\u00a0English',
+      heroEyebrow: 'Navigating Global Markets Together',
+      heroH1: 'Welcome to<br/><span class="grad-text">MOA METAL</span>',
+      heroDesc: 'Moa Metal is your trusted partner for growth in global markets,<br/>providing innovative solutions and expertise across gold-related industries,<br/>mineral resources, and corporate trading services.',
+      heroTagline: 'Trade leading to cross-border trust. We share success in global markets.',
+      bizLabel: 'Business Service',
+      bizH2: 'Our <span class="grad-text">Business</span>',
+      bizSub: 'Moa Metal strengthens the gold-related industry through import/export, new business development, and joint operations. We also provide diverse trade Business Services, supporting not just consulting but actual business \u201cexecution.\u201d',
+      biz1Tag: 'Gold Industry', biz1H3: 'Gold Industry and Trade',
+      biz1P: 'Moa Metal is a specialized company in the overall gold industry and international trade, covering wholesale, retail, processing, and manufacturing. Based on professional knowledge, we provide stable and reliable transactions, establishing a solid position in the industry through customer-centered service and high quality standards.<br/><br/>As a partner presenting the best solutions across every stage of the gold industry, we pursue continuous growth and innovation.',
+      biz2Tag: 'Natural Resources', biz2H3: 'Natural Resources',
+      biz2P: 'Mineral resources are inorganic materials naturally formed in the Earth\'s crust—solid substances with a definite chemical composition and regular crystal structure. They serve as raw materials that form the foundation of industry and the economy, playing essential roles across various fields.<br/><br/>Leveraging our global network and expertise, we provide stable and efficient mineral resource supply services, offering optimal solutions throughout the entire process.',
+      biz3Tag: 'Trading Service', biz3H3: 'Trading Service',
+      biz3P: 'Moa Metal\'s trading services provide comprehensive support to facilitate the smooth exchange of goods and services across borders, covering logistics management, customs procedures, payment settlement, and marketing activities.<br/><br/>We support market expansion through identifying new opportunities, establishing distribution channels, and building relationships with clients and partners worldwide.',
+      cvLabel: 'What We Stand For',
+      cvH2: 'The Core Value of<br/><span class="grad-text">Moa Metal</span>',
+      cvSub: 'Core values serve as the foundation for the success and sustainable growth of Moa Metal',
+      cv1Ttl: 'Reliability',
+      cv1Li: ['Collaboration with partners and customers from diverse countries and cultures', 'Building trust through transparent information sharing and honest communication', 'Professional expertise to respond to diverse variables and challenges'],
+      cv2Ttl: 'Innovativeness',
+      cv2Li: ['Rapid response to technological advances and changing consumer demands', 'New market entry strategies and adoption of digital technology', 'Strengthening competitiveness through innovative approaches and efficient logistics'],
+      cv3Ttl: 'Quality & Service',
+      cv3Li: ['Providing products and services of outstanding quality', 'Earning customer trust and securing repeat business and positive reputation', 'Meeting customer needs through swift and accurate response'],
+      cv4Ttl: 'Sustainability & CSR',
+      cv4Li: ['Practicing environmentally friendly trade practices', 'Creating positive social impact through ethical and responsible management', 'Fulfilling the role of a socially responsible company for sustainable development'],
+      ctaEyebrow: 'Partner for Success',
+      ctaSub: 'A partner for growth, designing your future',
+      ctaBtn: 'Contact Us',
+      ctaBtnGhost: 'Our Services',
+      ciLabel: 'Contact Information',
+      ciCompany: 'Moa Metal\nCo., Ltd.',
+      ftCopy: '© 2025 Moa Metal Co., Ltd. All rights reserved.',
+      ftLogin: 'Login'
+    },
+    'zh-CN': {
+      langLabel: '🇨🇳\u00a0简体中文',
+      heroEyebrow: '携手共赴全球市场',
+      heroH1: '欢迎来到<br/><span class="grad-text">MOA METAL</span>',
+      heroDesc: '摩亚金属是您在全球市场中值得信赖的成长伙伴，<br/>在黄金相关产业、矿产资源及企业贸易服务等多个领域<br/>提供创新解决方案与专业知识，始终以客户成功为首要目标。',
+      heroTagline: '跨越国界的信任贸易，我们在全球市场共创成功。',
+      bizLabel: '业务服务',
+      bizH2: '我们的<span class="grad-text">服务</span>',
+      bizSub: '摩亚金属通过黄金进出口业务、新业务开发及合作运营，不断强化黄金相关产业。此外，我们提供多元化的贸易商业服务，不仅提供咨询，更支持业务的实际\u201c执行\u201d。',
+      biz1Tag: '黄金产业', biz1H3: '黄金产业与贸易',
+      biz1P: '摩亚金属是专注于黄金批发、零售、加工、制造及国际贸易的专业企业。凭借专业知识提供稳定可靠的交易，通过以客户为中心的服务和高质量标准在业界树立了稳固地位。<br/><br/>作为在黄金产业各环节提供最佳解决方案的合作伙伴，我们追求持续成长与创新。',
+      biz2Tag: '矿产资源', biz2H3: '矿产资源',
+      biz2P: '矿物资源是地球地壳中自然形成的无机物，是具有一定化学组成和规则晶体结构的固体物质。它们是构成工业和经济基础的原材料，在各领域发挥着不可或缺的作用。<br/><br/>我们依托全球网络和专业实力，为客户提供稳定高效的矿产资源供应服务，全程提供最优解决方案。',
+      biz3Tag: '贸易服务', biz3H3: '贸易服务',
+      biz3P: '摩亚金属的贸易服务提供多项支持，涵盖物流管理、通关程序、货款结算、营销活动等国际贸易的各个方面。<br/><br/>通过发掘新机遇、建立分销渠道、与各国客户和合作伙伴建立关系，帮助企业拓展市场。',
+      cvLabel: '我们的理念',
+      cvH2: '摩亚金属的<br/><span class="grad-text">核心价值观</span>',
+      cvSub: '核心价值观是摩亚金属成功与可持续发展的基石',
+      cv1Ttl: '可靠性',
+      cv1Li: ['在贸易业务中与来自不同国家和文化的伙伴及客户展开合作', '通过透明的信息公开与诚实的沟通建立信任', '应对各种情况变量的专业能力'],
+      cv2Ttl: '创新性',
+      cv2Li: ['快速响应全球市场的技术发展和消费者需求变化', '新市场进入战略与数字技术的引进', '通过高效物流系统等创新方式强化竞争力'],
+      cv3Ttl: '品质与服务',
+      cv3Li: ['提供高品质的产品和服务', '赢得客户信任，确保回头客和良好声誉', '通过迅速准确的响应满足客户需求'],
+      cv4Ttl: '可持续发展与社会责任',
+      cv4Li: ['践行环境友好的贸易做法', '通过道德负责任的经营对社会产生积极影响', '履行可持续发展社会责任的企业角色'],
+      ctaEyebrow: '共创成功的伙伴',
+      ctaSub: '携手成长，共创您的未来',
+      ctaBtn: '联系我们',
+      ctaBtnGhost: '我们的服务',
+      ciLabel: '联系信息',
+      ciCompany: '摩亚金属\n株式会社',
+      ftCopy: '© 2025 摩亚金属株式会社. 版权所有。',
+      ftLogin: '登录'
+    },
+    'zh-TW': {
+      langLabel: '🇭🇰\u00a0繁體中文',
+      heroEyebrow: '攜手共赴全球市場',
+      heroH1: '歡迎來到<br/><span class="grad-text">MOA METAL</span>',
+      heroDesc: '摩亞金屬是您在全球市場中值得信賴的成長夥伴，<br/>在黃金相關產業、礦產資源及企業貿易服務等多個領域<br/>提供創新解決方案與專業知識，始終以客戶成功為首要目標。',
+      heroTagline: '跨越國界的信任貿易，我們在全球市場共創成功。',
+      bizLabel: '業務服務',
+      bizH2: '我們的<span class="grad-text">服務</span>',
+      bizSub: '摩亞金屬透過黃金進出口業務、新業務開發及合作運營，不斷強化黃金相關產業。此外，我們提供多元化的貿易商業服務，不僅提供諮詢，更支持業務的實際\u300c執行\u300d。',
+      biz1Tag: '黃金產業', biz1H3: '黃金產業與貿易',
+      biz1P: '摩亞金屬是專注於黃金批發、零售、加工、製造及國際貿易的專業企業。憑藉專業知識提供穩定可靠的交易，通過以客戶為中心的服務和高品質標準在業界樹立了穩固地位。<br/><br/>作為在黃金產業各環節提供最佳解決方案的合作夥伴，我們追求持續成長與創新。',
+      biz2Tag: '礦產資源', biz2H3: '礦產資源',
+      biz2P: '礦物資源是地球地殼中自然形成的無機物，是具有一定化學組成和規則晶體結構的固體物質。它們是構成工業和經濟基礎的原材料，在各領域發揮著不可或缺的作用。<br/><br/>我們依托全球網絡和專業實力，為客戶提供穩定高效的礦產資源供應服務。',
+      biz3Tag: '貿易服務', biz3H3: '貿易服務',
+      biz3P: '摩亞金屬的貿易服務提供多項支持，涵蓋物流管理、通關程序、貨款結算、行銷活動等國際貿易的各個方面。<br/><br/>通過發掘新機遇、建立分銷渠道、與各國客戶和合作夥伴建立關係，幫助企業拓展市場。',
+      cvLabel: '我們的理念',
+      cvH2: '摩亞金屬的<br/><span class="grad-text">核心價值觀</span>',
+      cvSub: '核心價值觀是摩亞金屬成功與可持續發展的基石',
+      cv1Ttl: '可靠性',
+      cv1Li: ['在貿易業務中與來自不同國家和文化的夥伴及客戶展開合作', '通過透明的信息公開與誠實的溝通建立信任', '應對各種情況變量的專業能力'],
+      cv2Ttl: '創新性',
+      cv2Li: ['快速響應全球市場的技術發展和消費者需求變化', '新市場進入戰略與數字技術的引進', '通過高效物流系統等創新方式強化競爭力'],
+      cv3Ttl: '品質與服務',
+      cv3Li: ['提供高品質的產品和服務', '贏得客戶信任，確保回頭客和良好聲譽', '通過迅速準確的響應滿足客戶需求'],
+      cv4Ttl: '可持續發展與社會責任',
+      cv4Li: ['踐行環境友好的貿易做法', '通過道德負責任的經營對社會產生積極影響', '履行可持續發展社會責任的企業角色'],
+      ctaEyebrow: '共創成功的夥伴',
+      ctaSub: '攜手成長，共創您的未來',
+      ctaBtn: '聯絡我們',
+      ctaBtnGhost: '我們的服務',
+      ciLabel: '聯繫信息',
+      ciCompany: '摩亞金屬\n株式會社',
+      ftCopy: '© 2025 摩亞金屬株式會社. 版權所有。',
+      ftLogin: '登入'
+    }
+  };
+
+  function applyLang(lang) {
+    var t = T[lang];
+    if (!t) return;
+    var $ = function(s) { return document.querySelector(s); };
+    var $$ = function(s) { return document.querySelectorAll(s); };
+
+    // Hero
+    var eyebrow = $('.hero-eyebrow');
+    if (eyebrow) eyebrow.textContent = t.heroEyebrow;
+    var h1 = $('.hero-h1');
+    if (h1) h1.innerHTML = t.heroH1;
+    var desc = $('.hero-desc');
+    if (desc) desc.innerHTML = t.heroDesc;
+    var tagline = $('.hero-tagline');
+    if (tagline) tagline.textContent = t.heroTagline;
+
+    // Business
+    var secLabels = $$('.sec-label');
+    var secH2s    = $$('.sec-h2');
+    var secSubs   = $$('.sec-sub');
+    if (secLabels[0]) secLabels[0].textContent = t.bizLabel;
+    if (secH2s[0])    secH2s[0].innerHTML = t.bizH2;
+    if (secSubs[0])   secSubs[0].textContent = t.bizSub;
+    var bCards = $$('.biz-card');
+    [[t.biz1Tag,t.biz1H3,t.biz1P],[t.biz2Tag,t.biz2H3,t.biz2P],[t.biz3Tag,t.biz3H3,t.biz3P]].forEach(function(d,i) {
+      if (!bCards[i]) return;
+      bCards[i].querySelector('.biz-tag').textContent = d[0];
+      bCards[i].querySelector('.biz-h3').textContent  = d[1];
+      bCards[i].querySelector('.biz-p').innerHTML     = d[2];
+    });
+
+    // Core Value
+    if (secLabels[1]) secLabels[1].textContent = t.cvLabel;
+    if (secH2s[1])    secH2s[1].innerHTML = t.cvH2;
+    if (secSubs[1])   secSubs[1].textContent = t.cvSub;
+    var cvCards = $$('.cv-card');
+    [[t.cv1Ttl,t.cv1Li],[t.cv2Ttl,t.cv2Li],[t.cv3Ttl,t.cv3Li],[t.cv4Ttl,t.cv4Li]].forEach(function(d,i) {
+      if (!cvCards[i]) return;
+      cvCards[i].querySelector('.cv-ttl').textContent = d[0];
+      cvCards[i].querySelectorAll('.cv-list li').forEach(function(li,j) {
+        if (d[1][j] !== undefined) li.textContent = d[1][j];
+      });
+    });
+
+    // CTA
+    var ctaEyebrow = $('.cta-eyebrow');
+    if (ctaEyebrow) ctaEyebrow.textContent = t.ctaEyebrow;
+    var ctaSub = $('.cta-sub');
+    if (ctaSub) ctaSub.textContent = t.ctaSub;
+    var ctaBtn = $('.cta-btn-primary');
+    if (ctaBtn) {
+      var svg = ctaBtn.querySelector('svg');
+      ctaBtn.textContent = t.ctaBtn + ' ';
+      if (svg) ctaBtn.appendChild(svg);
+    }
+    var ctaBtnGhost = $('.cta-btn-ghost');
+    if (ctaBtnGhost) ctaBtnGhost.textContent = t.ctaBtnGhost;
+
+    // Contact
+    var ciLabel = $('.ci-label');
+    if (ciLabel) ciLabel.textContent = t.ciLabel;
+    var ciCompany = $('.ci-company');
+    if (ciCompany) ciCompany.innerHTML = t.ciCompany.replace('\n','<br/>');
+
+    // Footer
+    var ftCopy = $('.ft-btm span');
+    if (ftCopy) ftCopy.textContent = t.ftCopy;
+    var ftLogin = $('.ft-btm a');
+    if (ftLogin) ftLogin.textContent = t.ftLogin;
+
+    // Lang button label
+    var langBtn = $('.hdr-lang > button');
+    if (langBtn) {
+      var arr = langBtn.querySelector('.arr');
+      langBtn.textContent = t.langLabel + ' ';
+      if (arr) langBtn.appendChild(arr);
+    }
+
+    // Active states
+    $$('.hdr-lang-menu a').forEach(function(a) {
+      a.classList.toggle('active', a.dataset.lang === lang);
+    });
+
+    document.documentElement.lang = lang;
+    try { localStorage.setItem('moametal-lang', lang); } catch(e) {}
+  }
+
+  // Init
+  var initLang = 'ko';
+  try { initLang = localStorage.getItem('moametal-lang') || 'ko'; } catch(e) {}
+  applyLang(initLang);
+  window.setLang = applyLang;
+
+  document.querySelectorAll('.hdr-lang-menu a').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      applyLang(a.dataset.lang);
+    });
+  });
+})();
+</script>
+
+<!-- Core interactions -->
+<script>
+(function () {
+
+  /* ─ Header scroll shrink ─ */
+  var hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', function() {
+    hdr.classList.toggle('s', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ─ Scroll reveal ─ */
+  var io = ('IntersectionObserver' in window)
+    ? new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('on');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' })
+    : null;
+  document.querySelectorAll('.rv').forEach(function(el) {
+    if (io) io.observe(el); else el.classList.add('on');
+  });
+
+  /* ─ Mobile nav ─ */
+  var navBtn = document.querySelector('.nav-btn');
+  var nav    = document.querySelector('.hdr-nav');
+  if (navBtn && nav) {
+
+    var MOB_LANGS = [
+      { code: 'ko',    label: '🇰🇷 한국어' },
+      { code: 'en',    label: '🇺🇸 English' },
+      { code: 'zh-CN', label: '🇨🇳 简体中文' },
+      { code: 'zh-TW', label: '🇭🇰 繁體中文' }
+    ];
+
+    function buildLangRow() {
+      var cur = 'ko';
+      try { cur = localStorage.getItem('moametal-lang') || 'ko'; } catch(e) {}
+      var div = document.createElement('div');
+      Object.assign(div.style, {
+        display: 'flex', flexWrap: 'wrap', gap: '.5rem',
+        paddingTop: '1rem', marginTop: '.25rem',
+        borderTop: '1px solid rgba(255,255,255,.06)'
+      });
+      MOB_LANGS.forEach(function(l) {
+        var a = document.createElement('a');
+        a.href = '#';
+        a.textContent = l.label;
+        var active = l.code === cur;
+        Object.assign(a.style, {
+          padding: '.35rem .875rem',
+          borderRadius: '100px',
+          textDecoration: 'none',
+          border: '1px solid ' + (active ? 'rgba(79,127,255,.4)' : 'rgba(255,255,255,.1)'),
+          fontSize: '.75rem',
+          fontFamily: "'Pretendard', sans-serif",
+          color: active ? '#4f7fff' : 'rgba(255,255,255,.5)'
+        });
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (typeof window.setLang === 'function') window.setLang(l.code);
+          closeMobileNav();
+        });
+        div.appendChild(a);
+      });
+      return div;
+    }
+
+    function openMobileNav() {
+      nav.classList.add('mob-open');
+      nav.appendChild(buildLangRow());
+    }
+
+    function closeMobileNav() {
+      navBtn.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('mob-open');
+      var last = nav.lastElementChild;
+      if (last && !last.matches('ul')) last.remove();
+    }
+
+    navBtn.addEventListener('click', function() {
+      var open = navBtn.getAttribute('aria-expanded') === 'true';
+      navBtn.setAttribute('aria-expanded', String(!open));
+      if (!open) openMobileNav(); else closeMobileNav();
+    });
+
+    nav.querySelectorAll('li > a').forEach(function(a) {
+      a.addEventListener('click', function() { closeMobileNav(); });
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>

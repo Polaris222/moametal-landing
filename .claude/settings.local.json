@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s https://moametal.kr)",
+      "WebFetch(domain:moametal.kr)",
+      "WebFetch(domain:vendor-cdn.imweb.me)",
+      "Bash(curl:*)",
+      "Read(//tmp/**)",
+      "WebFetch(domain:halotrade.kr)",
+      "Bash(grep -oP '>\\([^<]{10,}\\)<' /tmp/halotrade.html)",
+      "Bash(python3 -c \"import sys, html.parser; print\\(sys.stdin.read\\(\\)\\)\")",
+      "Bash(grep -v '^[a-z]*$')",
+      "Bash(grep -v '^[[:space:]]*$')",
+      "WebFetch(domain:www.halotrade.kr)",
+      "WebSearch",
+      "WebFetch(domain:cdn.imweb.me)"
+    ]
+  }
+}
